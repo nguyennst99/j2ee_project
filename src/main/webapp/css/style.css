@@ -1,0 +1,53 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #f4f4f4;
+}
+
+.welcome-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-container h1 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.welcome-container p {
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.action-buttons a {
+    display: inline-block;
+    padding: 12px 25px;
+    margin: 0 10px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn {
+    background-color: #007bff;
+}
+
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+.register-btn {
+    background-color: #28a745;
+}
+
+.register-btn:hover {
+    background-color: #218838;
+}
