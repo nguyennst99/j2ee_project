@@ -38,12 +38,12 @@
 -   [x] **Basic Dashboard View:** Create `dashboard.jsp`.
 
 ## Phase 2: Dashboard & Security Filter (Req 3)
--   [ ] **Dashboard Controller:** Implement `DashboardServlet.java`. (`@WebServlet("/dashboard")`).
--   [ ] **Authentication Filter:** Implement `AuthenticationFilter.java`.
-    -   [ ] Map to protected URL patterns (`/dashboard/*`, `/registerProduct`, `/addClaim`, `/admin/*`).
-    -   [ ] Check session for user object. Redirect if null.
-    -   [ ] Allow public pages.
--   [ ] **Configure Filter:** Register in `web.xml` or use `@WebFilter`.
+-   [x] **Dashboard Controller:** Implement `DashboardServlet.java`. (`@WebServlet("/dashboard")`).
+-   [x] **Authentication Filter:** Implement `AuthenticationFilter.java`.
+    -   [x] Map to protected URL patterns (`/dashboard/*`, `/registerProduct`, `/addClaim`, `/admin/*`).
+    -   [x] Check session for user object. Redirect if null.
+    -   [x] Allow public pages.
+-   [x] **Configure Filter:** Use `@WebFilter`.
 
 ## Phase 3: Product Catalog Management (Admin - Req 4)
 
