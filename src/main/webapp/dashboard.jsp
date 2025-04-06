@@ -13,7 +13,7 @@
 <%-- Check if user is actually logged in (though Filter should handle this primarily) --%>
 <c:if test="${empty sessionScope.userId}">
   <%-- User somehow reached here without being logged in - Redirect to login --%>
-  <c:redirect url="/login.jsp?error=nosession" />
+  <c:redirect url="/login.jsp" />
 </c:if>
 
 <div class="header">

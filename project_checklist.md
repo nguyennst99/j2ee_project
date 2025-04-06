@@ -47,13 +47,13 @@
 
 ## Phase 3: Product Catalog Management (Admin - Req 4)
 
--   [ ] **Model:** Create `Product.java` bean matching finalized `products` schema (incl. `description` if added).
--   [ ] **DAO Interface:** Define `ProductDAO.java` (methods: `create`, `findById`, `findByName`, `findAll`, `update`, `delete`, `search`).
--   [ ] **DAO Implementation:** Implement `ProductDAOImpl.java` (handle unique constraint on `product_name`).
--   [ ] **Admin Authorization:** Update `AuthenticationFilter` or create `AdminFilter` checking `user.getRole() == Role.ADMIN` for `/admin/*` paths.
--   [ ] **List Products View:** Create `admin/listProducts.jsp`. Display products, add/edit/delete links.
--   [ ] **Edit Product View:** Create `admin/editProduct.jsp`. Form for `product_name`, `model` (and `description` if added). Handle add/update.
--   [ ] **Admin Product Controller:** Implement `AdminProductServlet.java` (`@WebServlet("/admin/products")`). Handle GET (list, add form, edit form), POST (create, update, delete). Validate input.
+-   [x] **Model:** Create `Product.java` bean matching finalized `products` schema (incl. `description` if added).
+-   [x] **DAO Interface:** Define `ProductDAO.java` (methods: `create`, `findById`, `findByName`, `findAll`, `update`, `delete`, `search`).
+-   [x] **DAO Implementation:** Implement `ProductDAOImpl.java` (handle unique constraint on `product_name`).
+-   [x] **Admin Authorization:** Update `AuthenticationFilter` or create `AdminFilter` checking `user.getRole() == Role.ADMIN` for `/admin/*` paths.
+-   [x] **List Products View:** Create `admin/listProducts.jsp`. Display products, add/edit/delete links.
+-   [x] **Edit Product View:** Create `admin/editProduct.jsp`. Form for `product_name`, `model` (and `description` if added). Handle add/update.
+-   [x] **Admin Product Controller:** Implement `AdminProductServlet.java` (`@WebServlet("/admin/products")`). Handle GET (list, add form, edit form), POST (create, update, delete). Validate input.
 
 ## Phase 4: Product Registration (User - Req 1)
 

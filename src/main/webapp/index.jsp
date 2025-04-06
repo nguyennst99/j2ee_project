@@ -12,9 +12,8 @@
     <h1>ABC Insurance Protection Plan</h1>
     <p>Register your digital devices and manage your protection plan claims easily.</p>
     <div class="action-buttons">
-
-        <a href="/login.jsp" class="login-btn">Login</a>
-        <a href="/register.jsp" class="register-btn">Register</a>
+        <a href="/login" class="login-btn">Login</a>
+        <a href="/register" class="register-btn">Register</a>
     </div>
 </div>
 </body>

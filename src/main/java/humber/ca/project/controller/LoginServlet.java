@@ -26,6 +26,12 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -36,7 +42,6 @@ public class LoginServlet extends HttpServlet {
         } else {
             // Find user by username
             Optional<User> userOptional = userDAO.findUserByUsernameAndPassword(username, password);
-
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 // Login successfully
@@ -50,9 +55,9 @@ public class LoginServlet extends HttpServlet {
 
                 // Redirect to the user or admin dashboard
                 if (user.getRole() == Role.admin) {
-                    response.sendRedirect("/admin/dashboard.jsp");
+                    response.sendRedirect("/admin/dashboard");
                 } else {
-                    response.sendRedirect("/dashboard.jsp");
+                    response.sendRedirect("/dashboard");
                 }
                 return;
             } else {
