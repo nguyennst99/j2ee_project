@@ -25,7 +25,7 @@
     </c:if>
 
     <%-- Registration Form - Use POST to /register --%>
-    <form action="register" method="post">
+    <form action="/register" method="post">
 
         <div>
             <label for="username">Username:</label>
@@ -73,7 +73,7 @@
         </div>
 
         <p class="login-link">
-            Already have an account? <a href="/login.jsp">Login here</a>
+            Already have an account? <a href="/login">Login here</a>
         </p>
 
     </form>

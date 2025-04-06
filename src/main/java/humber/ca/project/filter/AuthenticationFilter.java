@@ -15,11 +15,13 @@ import java.util.Set;
 public class AuthenticationFilter implements Filter {
     // Define paths that do not require authentication
     private final Set<String> publicPaths = new HashSet<>(Arrays.asList(
-            "/login.jsp",
-            "register.jsp",
-            "index.jsp",
+            "/login",
+            "/register",
+            "/index.jsp",
             "/"
     ));
+
+    private final String[] publicPrefixes = {"/css", "/js", "/images"};
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -38,10 +40,19 @@ public class AuthenticationFilter implements Filter {
 
         boolean isPublicPath = publicPaths.contains(path);
 
+        boolean isPublicResource = false;
+        for (String pre : publicPrefixes) {
+            if (path.startsWith(pre)) {
+                isPublicResource = true;
+                break;
+            }
+        }
+
+
         // Check if user is logged in
         boolean loggedIn = (session != null && session.getAttribute("userId") != null);
 
-        if (loggedIn || isPublicPath) {
+        if (loggedIn || isPublicPath || isPublicResource) {
             // User is logged in OR the path is public - allow request to proceed
             chain.doFilter(httpServletRequest, httpServletResponse);
         } else {

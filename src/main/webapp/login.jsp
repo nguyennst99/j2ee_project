@@ -27,7 +27,7 @@
     </c:if>
 
     <%-- Login Form  --%>
-    <form action="login" method="post">
+    <form action="/login" method="post">
         <div>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required autofocus>
@@ -42,7 +42,7 @@
     </form>
 
     <p class="register-link">
-        Don't have an account? <a href="register.jsp">Register here</a>
+        Don't have an account? <a href="/register">Register here</a>
     </p>
 
 </div>

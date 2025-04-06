@@ -31,6 +31,12 @@ public class RegisterServlet extends HttpServlet {
     }
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("register.jsp");
+        dispatcher.forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get parameters
         String username = request.getParameter("username");
@@ -48,7 +54,7 @@ public class RegisterServlet extends HttpServlet {
         if (!errors.isEmpty()) {
             repopulateFormOnError(request, username, email, cellphone, name, address);
             request.setAttribute("errors", errors);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
             dispatcher.forward(request, response);
             return;
         }
@@ -67,7 +73,7 @@ public class RegisterServlet extends HttpServlet {
             if (!errors.isEmpty()) {
                 repopulateFormOnError(request, username, email, cellphone, name, address);
                 request.setAttribute("errors", errors);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
                 dispatcher.forward(request, response);
                 return;
             }
@@ -87,13 +93,13 @@ public class RegisterServlet extends HttpServlet {
 
             if (success) {
                 // Success: Redirect to login page with success message
-                response.sendRedirect("register.jsp");
+                response.sendRedirect("/login?registration=success");
             } else {
                 // Failure
                 errors.add("Registration failed.");
                 repopulateFormOnError(request, username, email, cellphone, name, address);
                 request.setAttribute("errors", errors);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
                 dispatcher.forward(request, response);
             }
 
@@ -102,7 +108,7 @@ public class RegisterServlet extends HttpServlet {
             errors.add("An unexpected error occurred. Please try again later.");
             repopulateFormOnError(request, username, email, cellphone, name, address);
             request.setAttribute("errors", errors);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
             dispatcher.forward(request, response);
         }
     }
