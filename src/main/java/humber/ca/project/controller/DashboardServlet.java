@@ -1,5 +1,8 @@
 package humber.ca.project.controller;
 
+import humber.ca.project.dao.RegisteredProductDAO;
+import humber.ca.project.dao.RegisteredProductDAOImpl;
+import humber.ca.project.model.RegisteredProduct;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,10 +12,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private RegisteredProductDAO rpDao;
+
+    @Override
+    public void init() throws ServletException {
+        rpDao = new RegisteredProductDAOImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -22,6 +33,10 @@ public class DashboardServlet extends HttpServlet {
             response.sendRedirect("/login?error=nosession");
             return;
         }
+
+        Integer userId = (Integer) session.getAttribute("userId");
+        List<RegisteredProduct> rpList = rpDao.findByUserId(userId);
+        request.setAttribute("registeredProducts", rpList);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard.jsp");
         dispatcher.forward(request, response);

@@ -57,16 +57,16 @@
 
 ## Phase 4: Product Registration (User - Req 1)
 
--   [ ] **Model:** Create `RegisteredProduct.java` bean matching schema.
--   [ ] **DAO Interface:** Define `RegisteredProductDAO.java` (methods: `register`, `findByUserId`, `findById`, `search`).
--   [ ] **DAO Implementation:** Implement `RegisteredProductDAOImpl.java` (handle unique key `(product_id, serial_number)`).
--   [ ] **Register Product View:** Create `registerProduct.jsp` (`/WEB-INF/views/`).
-    -   [ ] Dynamic `<select>` for "Product Name" (`productDAO.findAll`).
-    -   [ ] Fields for `serial_number`, `purchase_date`.
--   [ ] **Register Product Controller:** Implement `ProductRegistrationServlet.java` (`@WebServlet("/registerProduct")`).
-    -   [ ] `doGet`: Fetch product list, show form.
-    -   [ ] `doPost`: Validate input, get `user_id` from session, call DAO, handle success/failure (incl. duplicate error).
--   [ ] **Update Dashboard View:** Modify `dashboard.jsp`. List user's products (`registeredProductDAO.findByUserId`). Link to `/registerProduct`.
+-   [x] **Model:** Create `RegisteredProduct.java` bean matching schema.
+-   [x] **DAO Interface:** Define `RegisteredProductDAO.java` (methods: `register`, `findByUserId`, `findById`, `search`).
+-   [x] **DAO Implementation:** Implement `RegisteredProductDAOImpl.java` (handle unique key `(product_id, serial_number)`).
+-   [x] **Register Product View:** Create `registerProduct.jsp` (`/WEB-INF/views/`).
+    -   [x] Dynamic `<select>` for "Product Name" (`productDAO.findAll`).
+    -   [x] Fields for `serial_number`, `purchase_date`.
+-   [x] **Register Product Controller:** Implement `ProductRegistrationServlet.java` (`@WebServlet("/registerProduct")`).
+    -   [x] `doGet`: Fetch product list, show form.
+    -   [x] `doPost`: Validate input, get `user_id` from session, call DAO, handle success/failure (incl. duplicate error).
+-   [x] **Update Dashboard View:** Modify `dashboard.jsp`. List user's products (`registeredProductDAO.findByUserId`). Link to `/registerProduct`.
 
 ## Phase 5: Claim Management (User & Admin - Req 2, 4)
 
