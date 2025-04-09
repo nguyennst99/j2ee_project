@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RegisteredProductDAOImpl implements RegisteredProductDAO{
+public class RegisteredProductDAOImpl implements RegisteredProductDAO {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -49,7 +49,7 @@ public class RegisteredProductDAOImpl implements RegisteredProductDAO{
             try {
                 closeConnection();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                System.out.println("SQL Exception closing resources: " + e.getMessage());
             }
         }
         return row > 0;
@@ -81,8 +81,7 @@ public class RegisteredProductDAOImpl implements RegisteredProductDAO{
             try {
                 closeConnection();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+                System.out.println("SQL Exception closing resources: " + e.getMessage());            }
         }
         return regProductList;
     }
@@ -98,6 +97,7 @@ public class RegisteredProductDAOImpl implements RegisteredProductDAO{
             ps = con.prepareStatement(find_by_id_sql);
 
             ps.setInt(1, id);
+            rs = ps.executeQuery();
             if (rs.next()) {
                 registeredProduct = mapResultSetToRegProduct(rs);
             }
@@ -107,11 +107,41 @@ public class RegisteredProductDAOImpl implements RegisteredProductDAO{
             try {
                 closeConnection();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                System.out.println("SQL Exception closing resources: " + e.getMessage());            }
+        }
+        return Optional.ofNullable(registeredProduct);
+    }
+
+    @Override
+    public Optional<RegisteredProduct> findByIdWithDetail(int id) {
+        RegisteredProduct registeredProduct = null;
+        try {
+            con = DBUtil.getConnection();
+            String find_by_id_with_detail_sql =
+                    "SELECT rp.id, rp.user_id, rp.product_id, rp.serial_number, rp.purchase_date, " +
+                            "p.product_name, p.model, p.description " +
+                            "FROM registered_products rp " +
+                            "JOIN products p ON rp.product_id = p.id " +
+                            "WHERE rp.id = ?";
+            ps = con.prepareStatement(find_by_id_with_detail_sql);
+
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                registeredProduct = mapResultSetToRegProductWithProductDetail(rs);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Exception finding by id: " + e.getMessage());
+        } finally {
+            try {
+                closeConnection();
+            } catch (SQLException e) {
+                System.out.println("SQL Exception closing resources: " + e.getMessage());
             }
         }
         return Optional.ofNullable(registeredProduct);
     }
+
 
     private RegisteredProduct mapResultSetToRegProduct(ResultSet rs) throws SQLException {
         RegisteredProduct regProduct = new RegisteredProduct();

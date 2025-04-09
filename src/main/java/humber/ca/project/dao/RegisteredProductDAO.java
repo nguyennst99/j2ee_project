@@ -26,4 +26,11 @@ public interface RegisteredProductDAO {
      * @return an optional containing the Registered Product if found
      */
     Optional<RegisteredProduct> findById(int id);
+
+    /**
+     * Find a specific registered product with detail by its ID
+     * @param id (The ID of the registered product)
+     * @return an optional containing the Registered Product if found
+     */
+    Optional<RegisteredProduct> findByIdWithDetail(int id);
 }

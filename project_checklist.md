@@ -70,16 +70,16 @@
 
 ## Phase 5: Claim Management (User & Admin - Req 2, 4)
 
--   [ ] **Model:** Create `Claim.java` bean (with `ClaimStatus` enum matching schema `Submitted`, `Processing`, `Approved`, `Rejected`).
--   [ ] **DAO Interface:** Define `ClaimDAO.java` (methods: `create`, `findByRegisteredProductId`, `findById`, `updateStatus`, `getCountForProductInWindow`, `findAll`, `findByStatus`, `findClaimsForUserReport`).
--   [ ] **DAO Implementation:** Implement `ClaimDAOImpl.java`. Implement `getCountForProductInWindow` (check count within 5 years of purchase date - needs join or fetch `purchase_date`).
--   [ ] **Add Claim View:** Create `addClaim.jsp` (`/WEB-INF/views/`). Pass `registered_product_id`. Fields for `date_of_claim`, `description`.
--   [ ] **User Claim Controller:** Implement `ClaimServlet.java` (`@WebServlet("/addClaim")`).
-    -   [ ] `doGet`: Show form.
-    -   [ ] `doPost`: Validate input. **Business Logic:** Verify ownership, check claim count < 3 within 5 years (`claimDAO.getCountForProductInWindow`). Handle validation failure. Call `claimDAO.createClaim`. Redirect.
--   [ ] **Update Dashboard View:** Modify `dashboard.jsp`. Below each product, list its claims (`claimDAO.findByRegisteredProductId`). Show status. Add "Add Claim" button (pass `registered_product_id`).
--   [ ] **Admin List Claims View:** Create `admin/listClaims.jsp`. Display claims. Allow status change.
--   [ ] **Admin Claim Controller:** Implement `AdminClaimServlet.java` (`@WebServlet("/admin/claims")`). GET (list claims), POST (update status via `claimDAO.updateStatus`).
+-   [x] **Model:** Create `Claim.java` bean (with `ClaimStatus` enum matching schema `Submitted`, `Processing`, `Approved`, `Rejected`).
+-   [x] **DAO Interface:** Define `ClaimDAO.java` (methods: `create`, `findByRegisteredProductId`, `findById`, `updateStatus`, `getCountForProductInWindow`, `findAll`, `findByStatus`, `findClaimsForUserReport`).
+-   [x] **DAO Implementation:** Implement `ClaimDAOImpl.java`. Implement `getCountForProductInWindow` (check count within 5 years of purchase date - needs join or fetch `purchase_date`).
+-   [x] **Add Claim View:** Create `addClaim.jsp` (`/WEB-INF/views/`). Pass `registered_product_id`. Fields for `date_of_claim`, `description`.
+-   [x] **User Claim Controller:** Implement `ClaimServlet.java` (`@WebServlet("/addClaim")`).
+    -   [x] `doGet`: Show form.
+    -   [x] `doPost`: Validate input. **Business Logic:** Verify ownership, check claim count < 3 within 5 years (`claimDAO.getCountForProductInWindow`). Handle validation failure. Call `claimDAO.createClaim`. Redirect.
+-   [x] **Update Dashboard View:** Modify `dashboard.jsp`. Below each product, list its claims (`claimDAO.findByRegisteredProductId`). Show status. Add "Add Claim" button (pass `registered_product_id`).
+-   [x] **Admin List Claims View:** Create `admin/listClaims.jsp`. Display claims. Allow status change.
+-   [x] **Admin Claim Controller:** Implement `AdminClaimServlet.java` (`@WebServlet("/admin/claims")`). GET (list claims), POST (update status via `claimDAO.updateStatus`).
 
 ## Phase 6: Admin Reporting & Search (Req 4)
 

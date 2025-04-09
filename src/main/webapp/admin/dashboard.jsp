@@ -20,7 +20,7 @@
   <h1>Admin Dashboard</h1>
   <div>
     <span>Welcome, Admin <c:out value="${sessionScope.username}" />!</span> |
-    <a href="logout" class="logout-btn">Logout</a>
+    <a href="/logout" class="logout-btn">Logout</a>
   </div>
 </div>
 

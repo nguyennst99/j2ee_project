@@ -12,10 +12,6 @@ body {
     margin-bottom: 20px;
 }
 
-.header h1 {
-    margin: 0;
-}
-
 .logout-btn {
     padding: 8px 15px;
     background-color: #dc3545;
@@ -24,31 +20,21 @@ body {
     border-radius: 4px;
 }
 
-.logout-btn:hover {
-    background-color: #c82333;
-}
-
-.content {
-}
-
-.welcome-message {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-}
-
-#registered-products-section table {
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    margin-bottom: 25px; /* Space between products */
 }
 
-#registered-products-section th, #registered-products-section td {
+th, td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    vertical-align: top;
 }
 
-#registered-products-section th {
+th {
     background-color: #f2f2f2;
 }
 
@@ -79,4 +65,45 @@ body {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
+}
+
+.product-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.product-section h4 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.claims-table th {
+    background-color: #e9ecef;
+    font-size: 0.9em;
+}
+
+.claims-table td {
+    font-size: 0.9em;
+}
+
+.claim-status-Submitted {
+    font-weight: bold;
+}
+
+.claim-status-Processing {
+    color: #007bff;
+}
+
+.claim-status-Approved {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.claim-status-Rejected {
+    color: #dc3545;
+    font-style: italic;
 }

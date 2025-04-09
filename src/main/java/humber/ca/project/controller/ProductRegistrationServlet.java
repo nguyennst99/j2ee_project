@@ -39,7 +39,7 @@ public class ProductRegistrationServlet extends HttpServlet {
         List<Product> productList = productDAO.findAllProducts();
         request.setAttribute("productList", productList);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/registerProduct.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/user/registerProduct.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -96,7 +96,7 @@ public class ProductRegistrationServlet extends HttpServlet {
             List<Product> productList =  productDAO.findAllProducts();
 
             request.setAttribute("productList", productList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/registerProduct.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/user/registerProduct.jsp");
             dispatcher.forward(request, response);
             return;
         }
@@ -115,7 +115,7 @@ public class ProductRegistrationServlet extends HttpServlet {
             errors.add("Failed to register product. This serial number might already be use registered");
 
             request.setAttribute("errors", errors);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/registerProduct.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/user/registerProduct.jsp");
             dispatcher.forward(request, response);
         }
     }
