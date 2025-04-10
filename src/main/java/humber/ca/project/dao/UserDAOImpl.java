@@ -1,16 +1,13 @@
 package humber.ca.project.dao;
 
-import humber.ca.project.model.Role;
-import humber.ca.project.model.User;
+import humber.ca.project.model.*;
 import humber.ca.project.utils.DBUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class UserDAOImpl implements UserDAO {
     private Connection con;
@@ -204,11 +201,12 @@ public class UserDAOImpl implements UserDAO {
                             "SELECT id, username, email, cellphone, name, address, role " +
                             "FROM users " +
                             "WHERE username LIKE ? OR email LIKE ? OR name LIKE ?";
+            String searchSQL = "%"+ searchTerm + "%";
             ps = con.prepareStatement(search_user_sql);
 
-            ps.setString(1, searchTerm);
-            ps.setString(2, searchTerm);
-            ps.setString(3, searchTerm);
+            ps.setString(1, searchSQL);
+            ps.setString(2, searchSQL);
+            ps.setString(3, searchSQL);
 
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -224,6 +222,41 @@ public class UserDAOImpl implements UserDAO {
             }
         }
         return users;
+    }
+
+    @Override
+    public List<UserReportDetail> getUserReportDetails() {
+        List<UserReportDetail> reportLists = new ArrayList<>();
+
+        RegisteredProductDAO rpDAO = new RegisteredProductDAOImpl();
+        ClaimDAO claimDAO = new ClaimDAOImpl();
+
+        // Get all user info
+        List<User> allUsers = this.findAllUsers();
+
+        if (allUsers != null) {
+            // Loop each user to fetch their details
+            for (User user : allUsers) {
+                // Fetch registered products
+                List<RegisteredProduct> userProducts = rpDAO.findByUserId(user.getId());
+
+                // Get claims for this user's products
+                Map<Integer, List<Claim>> claimsForUserProducts = new HashMap<>();
+
+                // Fetch claims if the user has products
+                if (userProducts != null) {
+                    for (RegisteredProduct rp : userProducts) {
+                        List<Claim> claims = claimDAO.findByRegisteredProductId(rp.getId());
+                        if (claims != null && !claims.isEmpty()) {
+                            claimsForUserProducts.put(rp.getId(), claims);
+                        }
+                    }
+                }
+                UserReportDetail detail = new UserReportDetail(user, userProducts, claimsForUserProducts);
+                reportLists.add(detail);
+            }
+        }
+        return reportLists;
     }
 
     /**

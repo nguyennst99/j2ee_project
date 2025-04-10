@@ -2,6 +2,7 @@ package humber.ca.project.dao;
 
 import humber.ca.project.model.Product;
 import humber.ca.project.model.RegisteredProduct;
+import humber.ca.project.model.User;
 import humber.ca.project.utils.DBUtil;
 
 import java.sql.Connection;
@@ -142,6 +143,49 @@ public class RegisteredProductDAOImpl implements RegisteredProductDAO {
         return Optional.ofNullable(registeredProduct);
     }
 
+    @Override
+    public List<RegisteredProduct> searchRegisteredProducts(String searchTerm) {
+        List<RegisteredProduct> rpList = new ArrayList<>();
+        try {
+            con = DBUtil.getConnection();
+            String search_reg_products_sql =
+                    "SELECT rp.id, rp.user_id, rp.product_id, rp.serial_number, rp.purchase_date, " +
+                        "p.product_name, p.model, p.description, " +
+                        "u.username, u.name " +
+                    "FROM registered_products rp " +
+                    "JOIN products p ON rp.product_id = p.id " +
+                    "JOIN users u ON rp.user_id = u.id " +
+                    "WHERE u.username LIKE ? " +
+                        "OR u.name LIKE ? " +
+                        "OR p.product_name LIKE ? " +
+                        "OR p.model LIKE ? " +
+                        "OR rp.serial_number LIKE ? " +
+                    "ORDER BY u.username, rp.purchase_date DESC";
+            String searchSQL = "%" + searchTerm + "%";
+            ps = con.prepareStatement(search_reg_products_sql);
+
+            ps.setString(1, searchSQL);
+            ps.setString(2, searchSQL);
+            ps.setString(3, searchSQL);
+            ps.setString(4, searchSQL);
+            ps.setString(5, searchSQL);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                rpList.add(mapResultSetToRPWithUserDetails(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Exception searching registered products: " + e.getMessage());
+        } finally {
+            try {
+                closeConnection();
+            } catch (SQLException e) {
+                System.out.println("SQL Exception closing connection.");
+            }
+        }
+        return rpList;
+    }
+
 
     private RegisteredProduct mapResultSetToRegProduct(ResultSet rs) throws SQLException {
         RegisteredProduct regProduct = new RegisteredProduct();
@@ -166,5 +210,18 @@ public class RegisteredProductDAOImpl implements RegisteredProductDAO {
         regProduct.setProduct(product);
 
         return regProduct;
+    }
+
+    private RegisteredProduct mapResultSetToRPWithUserDetails(ResultSet rs) throws SQLException {
+        RegisteredProduct rp = mapResultSetToRegProductWithProductDetail(rs);
+
+        User user = new User();
+        user.setId(rp.getId());
+        user.setUsername(rs.getString("username"));
+        user.setName(rs.getString("name"));
+
+        rp.setUser(user);
+
+        return rp;
     }
 }

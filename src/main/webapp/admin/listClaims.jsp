@@ -4,84 +4,78 @@
 <%@ page import="humber.ca.project.model.Role" %>
 <%@ page import="humber.ca.project.model.ClaimStatus" %>
 
-<%-- Security Check --%>
-<c:if test="${empty sessionScope.userId or sessionScope.userRole != Role.admin}">
-    <c:redirect url="/login?error=admin_required" />
-</c:if>
+<c:if test="${empty sessionScope.userId or sessionScope.userRole != Role.admin}"><c:redirect
+        url="/login?error=admin_required"/></c:if>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin - Manage Claims</title>
-    <link rel="stylesheet" type="text/css" href="/css/adminListClaims.css">
+<c:set var="pageTitle" value="Admin - Manage Claims" scope="request"/>
+<jsp:include page="/common/header.jsp"/>
 
-</head>
-<body>
-<%--<c:import url="/WEB-INF/views/common/adminHeader.jsp"/>--%>
+<div class="container mt-4">
+    <c:import url="/common/adminHeader.jsp"/>
 
-<div class="container" style="margin: 20px;">
     <h2>Manage Claims</h2>
+    <hr>
 
-    <%-- Display messages from redirect --%>
     <c:if test="${not empty param.message}">
-        <div class="message ${param.messageType == 'error' ? 'error' : 'success'}">
+        <div class="alert ${param.messageType == 'error' ? 'alert-danger' : 'alert-success'}" role="alert">
             <c:out value="${param.message}"/>
         </div>
     </c:if>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Claim ID</th>
-            <th>Reg. Prod. ID</th>
-            <th>Claim Date</th>
-            <th>Description</th>
-            <th>Current Status</th>
-            <th>Created At</th>
-            <th>Update Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:choose>
-            <c:when test="${not empty claimList}">
-                <c:forEach var="claim" items="${claimList}">
+    <div class="table-responsive"> <%-- Make table scroll on small screens --%>
+        <table class="table table-striped table-hover table-sm"> <%-- Added table-sm --%>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Reg. Prod. ID</th>
+                <th>Claim Date</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th style="min-width: 220px;">Update Status</th>
+                <%-- Give update column more space --%>
+            </tr>
+            </thead>
+            <tbody>
+            <c:choose>
+                <c:when test="${not empty claimList}">
+                    <c:forEach var="claim" items="${claimList}">
+                        <tr>
+                            <td><c:out value="${claim.id}"/></td>
+                            <td><c:out value="${claim.registeredProductId}"/></td>
+                            <td><fmt:formatDate value="${claim.dateOfClaim}" pattern="yyyy-MM-dd"/></td>
+                            <td><c:out value="${claim.description}"/></td>
+                            <td><span
+                                    class="badge bg-${claim.claimStatus == 'Approved' ? 'success' : claim.claimStatus == 'Rejected' ? 'danger' : claim.claimStatus == 'Processing' ? 'info' : 'secondary'}"><c:out
+                                    value="${claim.claimStatus}"/></span></td>
+                            <td><fmt:formatDate value="${claim.createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                            <td>
+                                <form action="/admin/claims" method="post"
+                                      class="d-inline-flex align-items-center"> <%-- Use flex for alignment --%>
+                                    <input type="hidden" name="action" value="updateStatus">
+                                    <input type="hidden" name="claimId" value="${claim.id}">
+                                    <select name="newStatus" class="form-select form-select-sm me-2"
+                                            style="width: auto;"> <%-- Bootstrap select --%>
+                                        <c:forEach var="status" items="<%= ClaimStatus.values() %>">
+                                            <option value="${status.name()}" ${claim.claimStatus == status ? 'selected' : ''}>
+                                                <c:out value="${status.name()}"/></option>
+                                        </c:forEach>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
                     <tr>
-                        <td><c:out value="${claim.id}"/></td>
-                        <td><c:out value="${claim.registeredProductId}"/></td> <%-- Link to product/user later? --%>
-                        <td><fmt:formatDate value="${claim.dateOfClaim}" pattern="yyyy-MM-dd"/></td>
-                        <td><c:out value="${claim.description}"/></td>
-                        <td class="claim-status-${claim.claimStatus}">
-                            <c:out value="${claim.claimStatus}"/>
-                        </td>
-                        <td><fmt:formatDate value="${claim.createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
-                        <td>
-                                <%-- Form to update status for this specific claim --%>
-                            <form action="/admin/claims" method="post" class="update-form">
-                                <input type="hidden" name="action" value="updateStatus">
-                                <input type="hidden" name="claimId" value="${claim.id}">
-                                <select name="newStatus">
-                                        <%-- Loop through possible statuses from the Enum --%>
-                                    <c:forEach var="status" items="<%= ClaimStatus.values() %>">
-                                        <option value="${status.name()}" ${claim.claimStatus == status ? 'selected' : ''}>
-                                            <c:out value="${status.name()}"/>
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                                <button type="submit" class="btn btn-sm btn-primary">Update</button> <%-- Add btn-sm if defined --%>
-                            </form>
-                        </td>
+                        <td colspan="7" class="text-center text-muted">No claims found.</td>
                     </tr>
-                </c:forEach>
-            </c:when>
-            <c:otherwise>
-                <tr>
-                    <td colspan="7">No claims found.</td>
-                </tr>
-            </c:otherwise>
-        </c:choose>
-        </tbody>
-    </table>
+                </c:otherwise>
+            </c:choose>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-</body>
-</html>
+<jsp:include page="/common/footer.jsp"/>

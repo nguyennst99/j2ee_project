@@ -6,64 +6,70 @@
 <c:if test="${empty sessionScope.userId}"><c:redirect
         url="/login?error=nosession"/></c:if>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>ABC Insurance - Add Claim</title>
-    <link rel="stylesheet" type="text/css" href="/css/addClaim.css">
-</head>
-<body>
-<div style="margin: 20px;"><a href="/dashboard">Back to Dashboard</a></div>
+<c:set var="pageTitle" value="Add Claim" scope="request"/>
+<jsp:include page="/common/header.jsp"/>
 
-<div class="form-container">
-    <h2>Add New Claim</h2>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Claim</li>
+                </ol>
+            </nav>
 
-    <%-- Display product information if available --%>
-    <c:if test="${not empty registeredProduct}">
-        <div class="product-info">
-            <h4>For Product:</h4>
-            <p><strong>Name:</strong> <c:out value="${registeredProduct.product.productName}"/></p>
-            <p><strong>Model:</strong> <c:out value="${registeredProduct.product.model}"/></p>
-            <p><strong>Serial #:</strong> <c:out value="${registeredProduct.serialNumber}"/></p>
-            <p><strong>Purchase Date:</strong> <fmt:formatDate value="${registeredProduct.purchaseDate}"
-                                                               pattern="yyyy-MM-dd"/></p>
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4">Add New Claim</h2>
+
+                    <c:if test="${not empty registeredProduct}">
+                        <div class="alert alert-secondary">
+                            <h5 class="alert-heading">For Product:</h5>
+                            <p class="mb-1"><strong>Name:</strong> <c:out
+                                    value="${registeredProduct.product.productName}"/></p>
+                            <p class="mb-1"><strong>Model:</strong> <c:out value="${registeredProduct.product.model}"/>
+                            </p>
+                            <p class="mb-1"><strong>Serial #:</strong> <c:out
+                                    value="${registeredProduct.serialNumber}"/></p>
+                            <p class="mb-0"><strong>Purchase Date:</strong> <fmt:formatDate
+                                    value="${registeredProduct.purchaseDate}" pattern="yyyy-MM-dd"/></p>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty errors}">
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Please correct errors:</strong>
+                            <ul><c:forEach var="error" items="${errors}">
+                                <li><c:out value="${error}"/></li>
+                            </c:forEach></ul>
+                        </div>
+                    </c:if>
+
+                    <form action="/addClaim" method="post">
+                        <%-- Use ID from registeredProduct object set by servlet --%>
+                        <input type="hidden" name="registeredProductId"
+                               value="<c:out value='${registeredProduct.id}'/>">
+
+                        <div class="mb-3">
+                            <label for="dateOfClaim" class="form-label">Date of Incident/Claim:</label>
+                            <input type="date" class="form-control" id="dateOfClaim" name="dateOfClaim"
+                                   value="<c:out value='${param.dateOfClaim}'/>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description of Incident/Issue:</label>
+                            <textarea class="form-control" id="description" name="description" rows="5" required><c:out
+                                    value='${param.description}'/></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Submit Claim</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </c:if>
-
-    <%-- Display validation errors --%>
-    <c:if test="${not empty errors}">
-        <div class="error-message">
-            <strong>Please correct the following errors:</strong>
-            <ul><c:forEach var="error" items="${errors}">
-                <li><c:out value="${error}"/></li>
-            </c:forEach></ul>
-        </div>
-    </c:if>
-
-    <%-- Form posts to /addClaim --%>
-    <form action="/addClaim" method="post">
-
-        <%-- Hidden field to pass the registered product ID back --%>
-        <input type="hidden" name="registeredProductId"
-               value="<c:out value='${registeredProduct.id}'/>"> <%-- Get regId from request param --%>
-
-        <div>
-            <label for="dateOfClaim">Date of Incident/Claim:</label>
-            <%-- Repopulate if validation failed --%>
-            <input type="date" id="dateOfClaim" name="dateOfClaim" value="<c:out value='${param.dateOfClaim}'/>"
-                   required>
-        </div>
-
-        <div>
-            <label for="description">Description of Incident/Issue:</label>
-            <textarea id="description" name="description" rows="5" required><c:out
-                    value='${param.description}'/></textarea>
-        </div>
-
-        <div>
-            <button type="submit" class="btn btn-primary">Submit Claim</button>
-        </div>
-    </form>
+    </div>
 </div>
-</body>
-</html>
+
+<jsp:include page="/common/footer.jsp"/>

@@ -33,4 +33,6 @@ public interface RegisteredProductDAO {
      * @return an optional containing the Registered Product if found
      */
     Optional<RegisteredProduct> findByIdWithDetail(int id);
+
+    List<RegisteredProduct> searchRegisteredProducts(String searchTerm);
 }

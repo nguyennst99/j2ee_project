@@ -83,13 +83,13 @@
 
 ## Phase 6: Admin Reporting & Search (Req 4)
 
--   [ ] **Admin Dashboard View:** Create `admin/dashboard.jsp`. Links to admin sections.
--   [ ] **Admin User Search/List View:** Create `admin/listUsers.jsp`. Search form. Display results (`userDAO`).
--   [ ] **Admin User Controller:** Implement `AdminUserServlet.java` (`@WebServlet("/admin/users")`).
--   [ ] **Admin Registered Product Search/List View:** Create `admin/listRegisteredProducts.jsp`. Search form. Display results (`RegisteredProductDAO`).
--   [ ] **Admin Registered Product Controller:** Implement `AdminRegisteredProductServlet.java` (`@WebServlet("/admin/registeredProducts")`).
--   [ ] **Admin Report View:** Create `admin/reportAll.jsp`.
--   [ ] **Admin Report Controller:** Implement `AdminReportServlet.java` (`@WebServlet("/admin/reports/all")`). Fetch data for "Users, Registered Products, Claims" report (using JOINs or multiple DAO calls). Pass data to JSP.
+-   [x] **Admin Dashboard View:** Create `admin/dashboard.jsp`. Links to admin sections.
+-   [x] **Admin User Search/List View:** Create `admin/listUsers.jsp`. Search form. Display results (`userDAO`).
+-   [x] **Admin User Controller:** Implement `AdminUserServlet.java` (`@WebServlet("/admin/users")`).
+-   [x] **Admin Registered Product Search/List View:** Create `admin/listRegisteredProducts.jsp`. Search form. Display results (`RegisteredProductDAO`).
+-   [x] **Admin Registered Product Controller:** Implement `AdminRegisteredProductServlet.java` (`@WebServlet("/admin/registeredProducts")`).
+-   [x] **Admin Report View:** Create `admin/reportAll.jsp`.
+-   [x] **Admin Report Controller:** Implement `AdminReportServlet.java` (`@WebServlet("/admin/reports/all")`). Fetch data for "Users, Registered Products, Claims" report (using JOINs or multiple DAO calls). Pass data to JSP.
 
 ## Phase 7: New Unique Functionality (Req 5 - E.g., Warranty Expiry Notification)
 
