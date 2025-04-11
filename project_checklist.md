@@ -91,13 +91,12 @@
 -   [x] **Admin Report View:** Create `admin/reportAll.jsp`.
 -   [x] **Admin Report Controller:** Implement `AdminReportServlet.java` (`@WebServlet("/admin/reports/all")`). Fetch data for "Users, Registered Products, Claims" report (using JOINs or multiple DAO calls). Pass data to JSP.
 
-## Phase 7: New Unique Functionality (Req 5 - E.g., Warranty Expiry Notification)
+## Phase 7: New Unique Functionality (Req 5 - E.g., Email Notification)
 
--   [ ] **Add Dependency:** Add JavaMail API.
--   [ ] **Configure Mail:** Securely store mail server settings.
--   [ ] **Email Utility:** Create `EmailUtil.java`.
--   [ ] **DAO Method:** Add `findExpiringSoon(int days)` to `RegisteredProductDAO`.
--   [ ] **Scheduler:** Implement `ServletContextListener` (start/stop `ScheduledExecutorService`). Schedule task: call DAO, send emails via `EmailUtil`.
+-   [x] **Add Dependency:** Add JavaMail API.
+-   [x] **Configure Mail:** Securely store mail server settings.
+-   [x] **Email Utility:** Create `EmailUtil.java`.
+-   [x] **Scheduler:** Update `AdminClaimServlet` send emails via `EmailUtil` when `ClaimStatus` is updated.
 
 ## Phase 8: Final Touches & Deployment (Guideline)
 

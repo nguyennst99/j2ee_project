@@ -22,7 +22,7 @@
 
     <div class="mb-4">
         <h3>Your Registered Products & Claims</h3>
-        <a href="}/registerProduct" class="btn btn-primary mb-3">Register a New Product</a>
+        <a href="/registerProduct" class="btn btn-primary mb-3">Register a New Product</a>
     </div>
 
     <c:choose>
@@ -40,7 +40,7 @@
                             <strong>Purchased:</strong> <fmt:formatDate value="${rp.purchaseDate}"
                                                                         pattern="yyyy-MM-dd"/>
                         </p>
-                        <a href="}/addClaim?regId=${rp.id}" class="btn btn-sm btn-warning">Add Claim</a>
+                        <a href="/addClaim?regId=${rp.id}" class="btn btn-sm btn-warning">Add Claim</a>
 
                             <%-- Claims Section --%>
                         <h6 class="mt-3">Claims History:</h6>

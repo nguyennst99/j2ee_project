@@ -60,6 +60,7 @@ public class ClaimDAOImpl implements ClaimDAO{
             ps = con.prepareStatement(select_claim_by_id_sql);
 
             ps.setInt(1, id);
+            rs = ps.executeQuery();
 
             if (rs.next()) {
                 claim = mapResultSetToClaim(rs);

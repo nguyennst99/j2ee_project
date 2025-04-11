@@ -141,8 +141,8 @@ public class RegisterServlet extends HttpServlet {
         // Password checks
         if (password == null || password.isEmpty()) {
             errors.add("Password is required.");
-        } else if (password.length() < 8) { // Enforce minimum complexity/length
-            errors.add("Password must be at least 8 characters long.");
+        } else if (password.length() < 5) {
+            errors.add("Password must be at least 5 characters long.");
         }
         if (!password.equals(confirmPassword)) {
             errors.add("Passwords do not match.");
@@ -158,14 +158,14 @@ public class RegisterServlet extends HttpServlet {
         // Name checks
         if (name == null || name.trim().isEmpty()) {
             errors.add("Name is required.");
-        } else if (name.trim().length() > 30) { // Max length from the schema
+        } else if (name.trim().length() > 50) { // Max length from the schema
             errors.add("Name cannot exceed 30 characters.");
         }
 
         // Address checks
         if (address == null || address.trim().isEmpty()) {
             errors.add("Address is required.");
-        } else if (address.trim().length() > 50) { // Max length from the schema
+        } else if (address.trim().length() > 100) { // Max length from the schema
             errors.add("Address cannot exceed 50 characters.");
         }
 
