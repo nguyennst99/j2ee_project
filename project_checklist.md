@@ -57,47 +57,46 @@
 
 ## Phase 4: Product Registration (User - Req 1)
 
--   [ ] **Model:** Create `RegisteredProduct.java` bean matching schema.
--   [ ] **DAO Interface:** Define `RegisteredProductDAO.java` (methods: `register`, `findByUserId`, `findById`, `search`).
--   [ ] **DAO Implementation:** Implement `RegisteredProductDAOImpl.java` (handle unique key `(product_id, serial_number)`).
--   [ ] **Register Product View:** Create `registerProduct.jsp` (`/WEB-INF/views/`).
-    -   [ ] Dynamic `<select>` for "Product Name" (`productDAO.findAll`).
-    -   [ ] Fields for `serial_number`, `purchase_date`.
--   [ ] **Register Product Controller:** Implement `ProductRegistrationServlet.java` (`@WebServlet("/registerProduct")`).
-    -   [ ] `doGet`: Fetch product list, show form.
-    -   [ ] `doPost`: Validate input, get `user_id` from session, call DAO, handle success/failure (incl. duplicate error).
--   [ ] **Update Dashboard View:** Modify `dashboard.jsp`. List user's products (`registeredProductDAO.findByUserId`). Link to `/registerProduct`.
+-   [x] **Model:** Create `RegisteredProduct.java` bean matching schema.
+-   [x] **DAO Interface:** Define `RegisteredProductDAO.java` (methods: `register`, `findByUserId`, `findById`, `search`).
+-   [x] **DAO Implementation:** Implement `RegisteredProductDAOImpl.java` (handle unique key `(product_id, serial_number)`).
+-   [x] **Register Product View:** Create `registerProduct.jsp` (`/WEB-INF/views/`).
+    -   [x] Dynamic `<select>` for "Product Name" (`productDAO.findAll`).
+    -   [x] Fields for `serial_number`, `purchase_date`.
+-   [x] **Register Product Controller:** Implement `ProductRegistrationServlet.java` (`@WebServlet("/registerProduct")`).
+    -   [x] `doGet`: Fetch product list, show form.
+    -   [x] `doPost`: Validate input, get `user_id` from session, call DAO, handle success/failure (incl. duplicate error).
+-   [x] **Update Dashboard View:** Modify `dashboard.jsp`. List user's products (`registeredProductDAO.findByUserId`). Link to `/registerProduct`.
 
 ## Phase 5: Claim Management (User & Admin - Req 2, 4)
 
--   [ ] **Model:** Create `Claim.java` bean (with `ClaimStatus` enum matching schema `Submitted`, `Processing`, `Approved`, `Rejected`).
--   [ ] **DAO Interface:** Define `ClaimDAO.java` (methods: `create`, `findByRegisteredProductId`, `findById`, `updateStatus`, `getCountForProductInWindow`, `findAll`, `findByStatus`, `findClaimsForUserReport`).
--   [ ] **DAO Implementation:** Implement `ClaimDAOImpl.java`. Implement `getCountForProductInWindow` (check count within 5 years of purchase date - needs join or fetch `purchase_date`).
--   [ ] **Add Claim View:** Create `addClaim.jsp` (`/WEB-INF/views/`). Pass `registered_product_id`. Fields for `date_of_claim`, `description`.
--   [ ] **User Claim Controller:** Implement `ClaimServlet.java` (`@WebServlet("/addClaim")`).
-    -   [ ] `doGet`: Show form.
-    -   [ ] `doPost`: Validate input. **Business Logic:** Verify ownership, check claim count < 3 within 5 years (`claimDAO.getCountForProductInWindow`). Handle validation failure. Call `claimDAO.createClaim`. Redirect.
--   [ ] **Update Dashboard View:** Modify `dashboard.jsp`. Below each product, list its claims (`claimDAO.findByRegisteredProductId`). Show status. Add "Add Claim" button (pass `registered_product_id`).
--   [ ] **Admin List Claims View:** Create `admin/listClaims.jsp`. Display claims. Allow status change.
--   [ ] **Admin Claim Controller:** Implement `AdminClaimServlet.java` (`@WebServlet("/admin/claims")`). GET (list claims), POST (update status via `claimDAO.updateStatus`).
+-   [x] **Model:** Create `Claim.java` bean (with `ClaimStatus` enum matching schema `Submitted`, `Processing`, `Approved`, `Rejected`).
+-   [x] **DAO Interface:** Define `ClaimDAO.java` (methods: `create`, `findByRegisteredProductId`, `findById`, `updateStatus`, `getCountForProductInWindow`, `findAll`, `findByStatus`, `findClaimsForUserReport`).
+-   [x] **DAO Implementation:** Implement `ClaimDAOImpl.java`. Implement `getCountForProductInWindow` (check count within 5 years of purchase date - needs join or fetch `purchase_date`).
+-   [x] **Add Claim View:** Create `addClaim.jsp` (`/WEB-INF/views/`). Pass `registered_product_id`. Fields for `date_of_claim`, `description`.
+-   [x] **User Claim Controller:** Implement `ClaimServlet.java` (`@WebServlet("/addClaim")`).
+    -   [x] `doGet`: Show form.
+    -   [x] `doPost`: Validate input. **Business Logic:** Verify ownership, check claim count < 3 within 5 years (`claimDAO.getCountForProductInWindow`). Handle validation failure. Call `claimDAO.createClaim`. Redirect.
+-   [x] **Update Dashboard View:** Modify `dashboard.jsp`. Below each product, list its claims (`claimDAO.findByRegisteredProductId`). Show status. Add "Add Claim" button (pass `registered_product_id`).
+-   [x] **Admin List Claims View:** Create `admin/listClaims.jsp`. Display claims. Allow status change.
+-   [x] **Admin Claim Controller:** Implement `AdminClaimServlet.java` (`@WebServlet("/admin/claims")`). GET (list claims), POST (update status via `claimDAO.updateStatus`).
 
 ## Phase 6: Admin Reporting & Search (Req 4)
 
--   [ ] **Admin Dashboard View:** Create `admin/dashboard.jsp`. Links to admin sections.
--   [ ] **Admin User Search/List View:** Create `admin/listUsers.jsp`. Search form. Display results (`userDAO`).
--   [ ] **Admin User Controller:** Implement `AdminUserServlet.java` (`@WebServlet("/admin/users")`).
--   [ ] **Admin Registered Product Search/List View:** Create `admin/listRegisteredProducts.jsp`. Search form. Display results (`RegisteredProductDAO`).
--   [ ] **Admin Registered Product Controller:** Implement `AdminRegisteredProductServlet.java` (`@WebServlet("/admin/registeredProducts")`).
--   [ ] **Admin Report View:** Create `admin/reportAll.jsp`.
--   [ ] **Admin Report Controller:** Implement `AdminReportServlet.java` (`@WebServlet("/admin/reports/all")`). Fetch data for "Users, Registered Products, Claims" report (using JOINs or multiple DAO calls). Pass data to JSP.
+-   [x] **Admin Dashboard View:** Create `admin/dashboard.jsp`. Links to admin sections.
+-   [x] **Admin User Search/List View:** Create `admin/listUsers.jsp`. Search form. Display results (`userDAO`).
+-   [x] **Admin User Controller:** Implement `AdminUserServlet.java` (`@WebServlet("/admin/users")`).
+-   [x] **Admin Registered Product Search/List View:** Create `admin/listRegisteredProducts.jsp`. Search form. Display results (`RegisteredProductDAO`).
+-   [x] **Admin Registered Product Controller:** Implement `AdminRegisteredProductServlet.java` (`@WebServlet("/admin/registeredProducts")`).
+-   [x] **Admin Report View:** Create `admin/reportAll.jsp`.
+-   [x] **Admin Report Controller:** Implement `AdminReportServlet.java` (`@WebServlet("/admin/reports/all")`). Fetch data for "Users, Registered Products, Claims" report (using JOINs or multiple DAO calls). Pass data to JSP.
 
-## Phase 7: New Unique Functionality (Req 5 - E.g., Warranty Expiry Notification)
+## Phase 7: New Unique Functionality (Req 5 - E.g., Email Notification)
 
--   [ ] **Add Dependency:** Add JavaMail API.
--   [ ] **Configure Mail:** Securely store mail server settings.
--   [ ] **Email Utility:** Create `EmailUtil.java`.
--   [ ] **DAO Method:** Add `findExpiringSoon(int days)` to `RegisteredProductDAO`.
--   [ ] **Scheduler:** Implement `ServletContextListener` (start/stop `ScheduledExecutorService`). Schedule task: call DAO, send emails via `EmailUtil`.
+-   [x] **Add Dependency:** Add JavaMail API.
+-   [x] **Configure Mail:** Securely store mail server settings.
+-   [x] **Email Utility:** Create `EmailUtil.java`.
+-   [x] **Scheduler:** Update `AdminClaimServlet` send emails via `EmailUtil` when `ClaimStatus` is updated.
 
 ## Phase 8: Final Touches & Deployment (Guideline)
 

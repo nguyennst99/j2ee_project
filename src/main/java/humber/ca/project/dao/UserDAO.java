@@ -1,6 +1,7 @@
 package humber.ca.project.dao;
 
 import humber.ca.project.model.User;
+import humber.ca.project.model.UserReportDetail;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UserDAO {
     List<User> findAllUsers();
 
     List<User> searchUser(String searchTerm);
+
+    List<UserReportDetail> getUserReportDetails();
 }
