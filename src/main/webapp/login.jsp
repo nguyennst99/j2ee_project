@@ -20,7 +20,7 @@
                         <div class="alert alert-success" role="alert">Registration successful! Please login.</div>
                     </c:if>
 
-                    <form action="/login" method="post" novalidate> <%-- Add novalidate if using JS validation --%>
+                    <form action="${pageContext.request.contextPath}/login" method="post" novalidate> <%-- Add novalidate if using JS validation --%>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username:</label>
                             <input type="text" class="form-control" id="username" name="username" required autofocus>
@@ -35,7 +35,7 @@
                     </form>
 
                     <p class="text-center mt-3">
-                        Don't have an account? <a href="/register">Register here</a>
+                        Don't have an account? <a href="${pageContext.request.contextPath}/register">Register here</a>
                     </p>
                 </div>
             </div>
