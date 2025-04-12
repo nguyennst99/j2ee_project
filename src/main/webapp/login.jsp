@@ -43,5 +43,5 @@
     </div>
 </div>
 <%-- End Page Specific Content --%>
-
-<jsp:include page="/common/footer.jsp"/> <%-- Include Footer --%>
+</body>
+</html>

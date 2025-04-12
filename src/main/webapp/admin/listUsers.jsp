@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Manage Users - ABC Insurance</title>
+    <title>Admin | ABC</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -43,7 +43,6 @@
 <%-- 3. Main Content Area --%>
 <main class="main-content-area">
 
-    <%-- START: Specific content for listUsers.jsp --%>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
         <h1 class="h2">Manage Users</h1>
     </div>
@@ -85,8 +84,6 @@
                             <td><c:out value="${user.address}"/></td>
                             <td><span class="badge bg-${user.role == Role.admin ? 'primary' : 'secondary'}">
                                 <c:out value="${user.role}"/></span></td>
-                            <td>(Actions)</td>
-                                <%-- Placeholder --%>
                         </tr>
                     </c:forEach>
                 </c:when>
@@ -101,7 +98,6 @@
             </tbody>
         </table>
     </div>
-    <%-- END: Specific content for listUsers.jsp --%>
 
 </main>
 

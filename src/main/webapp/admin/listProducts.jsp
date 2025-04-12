@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Manage Products - ABC Insurance</title>
+    <title>Admin | ABC</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -43,7 +43,6 @@
 <%-- 3. Main Content Area --%>
 <main class="main-content-area">
 
-    <%-- START: Specific content for listProducts.jsp --%>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
         <h1 class="h2">Manage Products</h1>
         <a href="/admin/products?action=add" class="btn btn-primary btn-sm">Add New Product</a>
@@ -97,7 +96,6 @@
             </tbody>
         </table>
     </div>
-    <%-- END: Specific content for listProducts.jsp --%>
 
 </main>
 

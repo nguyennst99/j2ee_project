@@ -14,33 +14,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Manage Claims - ABC Insurance</title>
+    <title>Admin | ABC</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-
-
-    <style>
-        .claim-status-Submitted {
-            font-weight: bold;
-        }
-
-        .claim-status-Processing {
-            color: #007bff;
-        }
-
-        .claim-status-Approved {
-            color: #198754;
-            font-weight: bold;
-        }
-
-        .claim-status-Rejected {
-            color: #dc3545;
-            font-style: italic;
-        }
-    </style>
 </head>
 <body>
 
@@ -65,7 +44,6 @@
 <%-- 3. Main Content Area --%>
 <main class="main-content-area">
 
-    <%-- START: Specific content for listClaims.jsp --%>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
         <h1 class="h2">Manage Claims</h1>
     </div>
@@ -103,7 +81,7 @@
                             <td><span
                                     class="badge bg-${claim.claimStatus == 'Approved' ? 'success' : claim.claimStatus == 'Rejected' ? 'danger' : claim.claimStatus == 'Processing' ? 'info' : 'secondary'}"><c:out
                                     value="${claim.claimStatus}"/></span></td>
-                            <td><fmt:formatDate value="${claim.createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                            <td><fmt:formatDate value="${claim.createdAt}" pattern="yyyy-MM-dd HH:mm" timeZone="${serverTimeZoneId}"/></td>
                             <td>
                                 <form action="/admin/claims" method="post" class="d-inline-flex align-items-center">
                                     <input type="hidden" name="action" value="updateStatus">
@@ -130,7 +108,6 @@
             </tbody>
         </table>
     </div>
-    <%-- END: Specific content for listClaims.jsp --%>
 
 </main>
 

@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Registered Products - ABC Insurance</title>
+    <title>Admin | ABC</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -44,7 +44,6 @@
 <%-- 3. Main Content Area --%>
 <main class="main-content-area">
 
-    <%-- START: Specific content for listRegisteredProducts.jsp --%>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
         <h1 class="h2">View Registered Products</h1>
     </div>
@@ -87,7 +86,7 @@
                                 (<c:out value="${rp.product.model}"/>)
                             </td>
                             <td><c:out value="${rp.serialNumber}"/></td>
-                            <td><fmt:formatDate value="${rp.purchaseDate}" pattern="yyyy-MM-dd"/></td>
+                            <td><fmt:formatDate value="${rp.purchaseDate}" pattern="yyyy-MM-dd" timeZone="${serverTimeZoneId}"/></td>
                         </tr>
                     </c:forEach>
                 </c:when>
@@ -102,7 +101,6 @@
             </tbody>
         </table>
     </div>
-    <%-- END: Specific content for listRegisteredProducts.jsp --%>
 
 </main>
 

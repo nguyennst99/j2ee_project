@@ -50,7 +50,7 @@
 <%-- The outer positioning div is now removed from here and placed in each admin page --%>
 <div class="d-flex flex-column h-100">
     <div class="sidebar-header">
-        <a href="${pageContext.request.contextPath}/admin/dashboard"
+        <a href="/admin/dashboard"
            class="d-flex align-items-center link-dark text-decoration-none">
             <i class="bi bi-shield-lock fs-4 me-2"></i>
             <span class="fs-5 fw-semibold">Admin Panel</span>
@@ -59,22 +59,22 @@
     <hr class="mt-2 mb-2">
 
     <ul class="nav nav-pills flex-column mb-auto admin-sidebar-nav pt-1">
-        <li class="nav-item"><a href="${pageContext.request.contextPath}/admin/dashboard"
+        <li class="nav-item"><a href="/admin/dashboard"
                                 class="nav-link ${pageContext.request.servletPath == '/admin/dashboard.jsp' ? 'active' : 'link-dark'}">
             <i class="bi bi-house-door"></i> Dashboard </a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/users"
+        <li><a href="/admin/users"
                class="nav-link ${pageContext.request.servletPath == '/admin/listUsers.jsp' ? 'active' : 'link-dark'}">
             <i class="bi bi-people"></i> Manage Users </a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/products"
+        <li><a href="/admin/products"
                class="nav-link ${pageContext.request.servletPath == '/admin/listProducts.jsp' || pageContext.request.servletPath == '/admin/editProduct.jsp' ? 'active' : 'link-dark'}">
             <i class="bi bi-box-seam"></i> Manage Products </a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/registeredProducts"
+        <li><a href="/admin/registeredProducts"
                class="nav-link ${pageContext.request.servletPath == '/admin/listRegisteredProducts.jsp' ? 'active' : 'link-dark'}">
             <i class="bi bi-card-list"></i> View Registered </a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/claims"
+        <li><a href="/admin/claims"
                class="nav-link ${pageContext.request.servletPath == '/admin/listClaims.jsp' ? 'active' : 'link-dark'}">
             <i class="bi bi-clipboard-check"></i> Manage Claims </a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/reports/all"
+        <li><a href="/admin/reports/all"
                class="nav-link ${pageContext.request.servletPath == '/admin/reportAll.jsp' ? 'active' : 'link-dark'}">
             <i class="bi bi-file-earmark-text"></i> User Report </a></li>
     </ul>
@@ -88,7 +88,7 @@
                 <strong><c:out value="${sessionScope.username}"/></strong>
             </a>
             <ul class="dropdown-menu text-small shadow">
-                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Sign out</a></li>
+                <li><a class="dropdown-item" href="/logout">Sign out</a></li>
             </ul>
         </div>
     </div>

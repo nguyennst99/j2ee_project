@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - All User Report - ABC Insurance</title>
+    <title>Admin | ABC</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -116,7 +116,6 @@
 <%-- 3. Main Content Area --%>
 <main class="main-content-area">
 
-    <%-- START: Specific content for reportAll.jsp --%>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
         <h1 class="h2">Report: All Users, Products, and Claims</h1>
     </div>
@@ -145,8 +144,8 @@
                                             <strong>Reg ID: <c:out value="${rp.id}"/></strong> | <c:out
                                                 value="${rp.product.productName}"/> (<c:out
                                                 value="${rp.product.model}"/>) |
-                                            Serial #: <c:out value="${rp.serialNumber}"/> | Purchased: <fmt:formatDate
-                                                value="${rp.purchaseDate}" pattern="yyyy-MM-dd"/>
+                                            Serial #: <c:out value="${rp.serialNumber}"/> | Purchased:
+                                            <fmt:formatDate value="${rp.purchaseDate}" pattern="yyyy-MM-dd" timeZone="${serverTimeZoneId}"/>
                                         </p>
                                         <c:set var="productClaims" value="${reportDetail.productClaimsMap[rp.id]}"/>
                                         <c:choose>
@@ -164,8 +163,7 @@
                                                     <c:forEach var="claim" items="${productClaims}">
                                                         <tr>
                                                             <td><c:out value="${claim.id}"/></td>
-                                                            <td><fmt:formatDate value="${claim.dateOfClaim}"
-                                                                                pattern="yyyy-MM-dd"/></td>
+                                                            <td><fmt:formatDate value="${claim.dateOfClaim}" pattern="yyyy-MM-dd" timeZone="${serverTimeZoneId}"/></td>
                                                             <td><span
                                                                     class="badge bg-${claim.claimStatus == 'Approved' ? 'success' : claim.claimStatus == 'Rejected' ? 'danger' : claim.claimStatus == 'Processing' ? 'info' : 'secondary'}"><c:out
                                                                     value="${claim.claimStatus}"/></span></td>
@@ -194,7 +192,6 @@
             <div class="alert alert-info">No users found in the system.</div>
         </c:otherwise>
     </c:choose>
-    <%-- END: Specific content for reportAll.jsp --%>
 
 </main>
 
