@@ -83,6 +83,12 @@
             <version>${angus-mail.version}</version>
             <scope>runtime</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.jsimone</groupId>
+            <artifactId>webapp-runner</artifactId>
+            <version>9.0.89.0</version>
+        </dependency>
     </dependencies>
 
     <build>
