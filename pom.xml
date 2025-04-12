@@ -85,10 +85,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.jsimone</groupId>
-            <artifactId>webapp-runner</artifactId>
-            <version>9.0.27.1</version>
-            <scope>provided</scope>
+            <groupId>com.heroku</groupId>
+            <artifactId>webapp-runner-main</artifactId>
+            <version>10.1.18.0</version>
         </dependency>
     </dependencies>
 
@@ -111,9 +110,9 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>com.github.jsimone</groupId>
-                                    <artifactId>webapp-runner</artifactId>
-                                    <version>9.0.27.1</version> <!-- Match version above -->
+                                    <groupId>com.heroku</groupId>
+                                    <artifactId>webapp-runner-main</artifactId>
+                                    <version>10.1.18.0</version>
                                     <destFileName>webapp-runner.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
