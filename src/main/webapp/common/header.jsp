@@ -12,6 +12,8 @@
     <%-- Bootstrap CSS (CDN Link - requires internet access) --%>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <%-- Bootstrap Icons --%>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
         body {
@@ -20,69 +22,46 @@
 
         .content-wrapper {
             padding: 20px;
+            flex-grow: 1;
         }
 
         .footer {
             background-color: #f8f9fa;
             padding: 15px 0;
-            margin-top: 30px;
             text-align: center;
             border-top: 1px solid #e7e7e7;
+            flex-shrink: 0;
         }
     </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">ABC Insurance</a>
+        <a class="navbar-brand" href="/">ABC Insurance</a> <%-- Link to home --%>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
+            <%-- Navigation Links for Logged-in User --%>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <%-- Common Links --%>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                </li>
-
-                <%-- User Specific Links --%>
                 <c:if test="${not empty sessionScope.userId and sessionScope.userRole == Role.user}">
                     <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                        <a class="nav-link ${pageContext.request.servletPath == '/user/dashboard.jsp' ? 'active' : ''}"
+                           href="/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/registerProduct">Register
-                            Product</a>
+                        <a class="nav-link ${pageContext.request.servletPath == '/user/my-products.jsp' ? 'active' : ''}"
+                           href="/my-products">My Products</a>
                     </li>
-                </c:if>
-
-                <%-- Admin Specific Links --%>
-                <c:if test="${not empty sessionScope.userId and sessionScope.userRole == Role.admin}">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            Admin Menu
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/admin/dashboard">Admin
-                                Home</a></li>
-                            <li><a class="dropdown-item" href="/admin/users">Manage
-                                Users</a></li>
-                            <li><a class="dropdown-item" href="/admin/products">Manage
-                                Products</a></li>
-                            <li><a class="dropdown-item" href="/admin/claims">Manage
-                                Claims</a></li>
-                            <li><a class="dropdown-item"
-                                   href="/admin/registeredProducts">View
-                                Registered</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="/admin/reports/all">All
-                                User Report</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link ${pageContext.request.servletPath == '/user/my-claims.jsp' ? 'active' : ''}"
+                           href="/my-claims">My Claims</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ${pageContext.request.servletPath == '/user/registerProduct.jsp' ? 'active' : ''}"
+                           href="/registerProduct">Register Product</a>
                     </li>
                 </c:if>
             </ul>
@@ -94,12 +73,12 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                aria-expanded="false">
-                                Welcome, <c:out value="${sessionScope.username}"/>!
+                                <i class="bi bi-person-circle me-1"></i> Welcome, <c:out
+                                    value="${sessionScope.username}"/>!
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="/logout">Logout</a>
+                                <li><a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
                                 </li>
-                                    <%-- Add profile link later? --%>
                             </ul>
                         </li>
                     </c:when>
@@ -118,5 +97,4 @@
     </div>
 </nav>
 
-<%-- Start of main page content area --%>
 <div class="content-wrapper">

@@ -1,53 +1,78 @@
+:root {
+    --navbar-height: 56px;
+    --sidebar-width: 250px;
+}
+
+html {
+    height: 100%;
+}
+
 body {
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    background-color: #f4f4f4;
+    padding-top: var(--navbar-height);
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    position: relative;
 }
 
-.welcome-container {
-    text-align: center;
+.sidebar {
+    position: fixed;
+    top: var(--navbar-height);
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    width: var(--sidebar-width);
+    overflow-y: auto;
     background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.welcome-container h1 {
-    margin-bottom: 15px;
-    color: #333;
+.main-content-area {
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    padding-bottom: 70px; /* Add padding for footer */
+    min-height: calc(100vh - var(--navbar-height));
 }
 
-.welcome-container p {
-    margin-bottom: 30px;
-    color: #666;
+/* Ensure content area can fill height */
+.footer-admin {
+    background-color: #e9ecef;
+    padding: 10px 20px;
+    text-align: center;
+    border-top: 1px solid #dee2e6;
+    font-size: 0.9em;
+    color: #6c757d;
+    position: fixed;
+    bottom: 0;
+    left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    z-index: 999;
 }
 
-.action-buttons a {
-    display: inline-block;
-    padding: 12px 25px;
-    margin: 0 10px;
-    text-decoration: none;
-    color: white;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+/* Fixed footer */
+@media (max-width: 991.98px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content-area {
+        margin-left: 0;
+        padding-bottom: 70px;
+    }
+
+    .footer-admin {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .navbar-toggler-admin {
+        display: block !important;
+    }
 }
 
-.login-btn {
-    background-color: #007bff;
+@media (min-width: 992px) {
+    .navbar-toggler-admin {
+        display: none !important;
+    }
 }
-
-.login-btn:hover {
-    background-color: #0056b3;
-}
-
-.register-btn {
-    background-color: #28a745;
-}
-
-.register-btn:hover {
-    background-color: #218838;
-}
+    

@@ -1,39 +1,70 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="humber.ca.project.model.Role" %>
 
-<c:if test="${empty sessionScope.userId or sessionScope.userRole != Role.admin}"><c:redirect
-        url="/login?error=admin_required"/></c:if>
+<%-- Security Check --%>
+<c:if test="${empty sessionScope.userId or sessionScope.userRole != Role.admin}">
+    <c:redirect url="/login?error=admin_required"/>
+</c:if>
 
-<c:set var="pageTitle" value="Admin - Registered Products" scope="request"/>
-<jsp:include page="/common/header.jsp"/>
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | ABC</title>
 
-<div class="container mt-4">
-    <c:import url="/common/adminHeader.jsp"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <h2>View Registered Products</h2>
-    <hr>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
 
-    <form action="/admin/registeredProducts" method="get"
-          class="row g-3 align-items-center mb-3">
-        <div class="col-auto">
+<%-- 1. Include Fixed Top Navbar --%>
+<jsp:include page="/common/adminNavbar.jsp"/>
+
+<%-- 2. Sidebar (Fixed for large screens) --%>
+<div class="sidebar d-none d-lg-block">
+    <jsp:include page="/common/adminSidebar.jsp"/>
+</div>
+<%-- Offcanvas Sidebar for small screens --%>
+<div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasAdminSidebar"
+     aria-labelledby="offcanvasAdminSidebarLabel" style="width: var(--sidebar-width);">
+    <div class="offcanvas-header"><h5 class="offcanvas-title" id="offcanvasAdminSidebarLabel">Admin Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <jsp:include page="/common/adminSidebar.jsp"/>
+    </div>
+</div>
+
+<%-- 3. Main Content Area --%>
+<main class="main-content-area">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
+        <h1 class="h2">View Registered Products</h1>
+    </div>
+
+    <form action="/admin/registeredProducts" method="get" class="row g-3 align-items-center mb-4">
+        <div class="col-sm-8 col-md-6 col-lg-5">
             <label for="searchTerm" class="visually-hidden">Search</label>
-            <input type="text" class="form-control" id="searchTerm" name="searchTerm"
+            <input type="text" class="form-control form-control-sm" id="searchTerm" name="searchTerm"
                    placeholder="Search User, Product, Serial..." value="<c:out value='${searchTerm}'/>">
         </div>
         <div class="col-auto">
-            <button type="submit" class="btn btn-secondary">Search</button>
+            <button type="submit" class="btn btn-secondary btn-sm">Search</button>
         </div>
         <div class="col-auto">
-            <a href="/admin/registeredProducts" class="btn btn-outline-secondary">Show
-                All</a>
+            <a href="/admin/registeredProducts" class="btn btn-outline-secondary btn-sm">Show All</a>
         </div>
     </form>
 
     <div class="table-responsive">
-        <table class="table table-striped table-hover table-sm">
-            <thead>
+        <table class="table table-striped table-hover table-sm align-middle">
+            <thead class="table-light">
             <tr>
                 <th>Reg ID</th>
                 <th>User (ID/Name)</th>
@@ -48,20 +79,20 @@
                     <c:forEach var="rp" items="${registeredProductList}">
                         <tr>
                             <td><c:out value="${rp.id}"/></td>
-                            <td><c:out value="${rp.user.id}"/> / <c:out value="${rp.user.username}"/> (<c:out
-                                    value="${rp.user.name}"/>)
+                            <td><c:out value="${rp.user.id}"/> / <c:out value="${rp.user.username}"/>
+                                (<c:out value="${rp.user.name}"/>)
                             </td>
-                            <td><c:out value="${rp.product.id}"/> / <c:out value="${rp.product.productName}"/> (<c:out
-                                    value="${rp.product.model}"/>)
+                            <td><c:out value="${rp.product.id}"/> / <c:out value="${rp.product.productName}"/>
+                                (<c:out value="${rp.product.model}"/>)
                             </td>
                             <td><c:out value="${rp.serialNumber}"/></td>
-                            <td><fmt:formatDate value="${rp.purchaseDate}" pattern="yyyy-MM-dd"/></td>
+                            <td><fmt:formatDate value="${rp.purchaseDate}" pattern="yyyy-MM-dd" timeZone="${serverTimeZoneId}"/></td>
                         </tr>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <td colspan="5" class="text-center text-muted">No registered products found<c:if
+                        <td colspan="5" class="text-center text-muted fst-italic py-3">No registered products found<c:if
                                 test="${not empty searchTerm}"> matching search</c:if>.
                         </td>
                     </tr>
@@ -70,6 +101,10 @@
             </tbody>
         </table>
     </div>
-</div>
 
-<jsp:include page="/common/footer.jsp"/>
+</main>
+
+<%-- 4. Include Footer --%>
+<jsp:include page="/common/adminFooter.jsp"/>
+</body>
+</html>

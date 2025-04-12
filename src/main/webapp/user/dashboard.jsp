@@ -1,18 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="humber.ca.project.model.Role" %>
 
+<%-- Security Check --%>
 <c:if test="${empty sessionScope.userId or sessionScope.userRole != Role.user}">
     <c:redirect url="/login?error=unauthorized"/>
 </c:if>
 
-<c:set var="pageTitle" value="Dashboard" scope="request"/>
+<c:set var="pageTitle" value="My Dashboard" scope="request"/>
 <jsp:include page="/common/header.jsp"/>
-<div class="container mt-4">
-    <h1>Customer Dashboard</h1>
-    <hr>
 
+<div class="container mt-4">
+    <h1 class="mb-4">Welcome, <c:out value="${sessionScope.username}"/>!</h1>
+
+    <%-- Display messages --%>
     <c:if test="${not empty param.message}">
         <div class="alert alert-success" role="alert"><c:out value="${param.message}"/></div>
     </c:if>
@@ -20,69 +21,46 @@
         <div class="alert alert-danger" role="alert"><c:out value="${param.error}"/></div>
     </c:if>
 
-    <div class="mb-4">
-        <h3>Your Registered Products & Claims</h3>
-        <a href="/registerProduct" class="btn btn-primary mb-3">Register a New Product</a>
-    </div>
-
-    <c:choose>
-        <c:when test="${not empty registeredProducts}">
-            <c:forEach var="rp" items="${registeredProducts}">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <c:out value="${rp.product.productName}"/> (<c:out value="${rp.product.model}"/>)
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            <strong>Serial #:</strong> <c:out value="${rp.serialNumber}"/> |
-                            <strong>Purchased:</strong> <fmt:formatDate value="${rp.purchaseDate}"
-                                                                        pattern="yyyy-MM-dd"/>
-                        </p>
-                        <a href="/addClaim?regId=${rp.id}" class="btn btn-sm btn-warning">Add Claim</a>
-
-                            <%-- Claims Section --%>
-                        <h6 class="mt-3">Claims History:</h6>
-                        <c:set var="productClaims" value="${claimsMap[rp.id]}"/>
-                        <c:choose>
-                            <c:when test="${not empty productClaims}">
-                                <table class="table table-sm table-striped table-hover mt-2">
-                                    <thead>
-                                    <tr>
-                                        <th>Claim Date</th>
-                                        <th>Status</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach var="claim" items="${productClaims}">
-                                        <tr>
-                                            <td><fmt:formatDate value="${claim.dateOfClaim}" pattern="yyyy-MM-dd"/></td>
-                                            <td><span
-                                                    class="badge bg-${claim.claimStatus == 'Approved' ? 'success' : claim.claimStatus == 'Rejected' ? 'danger' : claim.claimStatus == 'Processing' ? 'info' : 'secondary'}"><c:out
-                                                    value="${claim.claimStatus}"/></span></td>
-                                            <td><c:out value="${claim.description}"/></td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                            </c:when>
-                            <c:otherwise>
-                                <p class="text-muted small ms-2">No claims submitted for this product yet.</p>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </div> <%-- End card --%>
-            </c:forEach>
-        </c:when>
-        <c:otherwise>
-            <div class="alert alert-info" role="alert">
-                You have not registered any products yet. Click the button above to register one!
+    <div class="row g-4">
+        <%-- Card for My Products --%>
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title"><i class="bi bi-box-seam me-2"></i>My Registered Products</h5>
+                    <p class="card-text flex-grow-1">View your registered devices, check warranty status (implicitly via
+                        claim eligibility), and initiate new claims.</p>
+                    <a href="/my-products" class="btn btn-primary mt-auto">View My
+                        Products</a>
+                </div>
             </div>
-        </c:otherwise>
-    </c:choose>
+        </div>
+
+        <%-- Card for My Claims --%>
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title"><i class="bi bi-clipboard-check me-2"></i>My Claims History</h5>
+                    <p class="card-text flex-grow-1">Track the status of all your submitted claims for repairs or
+                        replacements.</p>
+                    <a href="/my-claims" class="btn btn-info mt-auto">View My
+                        Claims</a>
+                </div>
+            </div>
+        </div>
+
+        <%-- Card for Registered Product --%>
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title"><i class="bi bi-plus-circle me-2"></i>Register New Product</h5>
+                    <p class="card-text flex-grow-1">Add a new device to your protection plan.</p>
+                    <a href="/registerProduct" class="btn btn-success mt-auto">Register
+                        Product</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
-<%-- End Page Specific Content --%>
 
 <jsp:include page="/common/footer.jsp"/>

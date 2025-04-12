@@ -2,8 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="humber.ca.project.model.Role" %>
 
-<c:if test="${empty sessionScope.userId}"><c:redirect
-        url="/login?error=nosession"/></c:if>
+<c:if test="${empty sessionScope.userId or sessionScope.userRole != Role.user}">
+    <c:redirect url="/login?error=unauthorized" />
+</c:if>
 
 <c:set var="pageTitle" value="Register Product" scope="request"/>
 <jsp:include page="/common/header.jsp"/>
