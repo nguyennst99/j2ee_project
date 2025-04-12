@@ -5,9 +5,8 @@ import humber.ca.project.model.ClaimStatus;
 import humber.ca.project.utils.DBUtil;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.sql.Date;
+import java.util.*;
 
 public class ClaimDAOImpl implements ClaimDAO{
     Connection con;
@@ -211,5 +210,42 @@ public class ClaimDAOImpl implements ClaimDAO{
 
         return claim;
 
+    }
+
+    @Override
+    public Map<String, Long> getClaimCountsPerProductType() {
+        Map<String, Long> productClaimCounts = new LinkedHashMap<>();
+
+        try {
+            con = DBUtil.getConnection();
+            String sql =
+                    "SELECT " +
+                            "CONCAT(p.product_name, ' (', p.model, ')') AS product_label, " +
+                            "COUNT(c.id) AS claim_count " +
+                            "FROM claims c " +
+                            "JOIN registered_products rp " +
+                            "ON c.registered_product_id = rp.id " +
+                            "JOIN products p " +
+                            "ON rp.product_id = p.id " +
+                            "GROUP BY p.id, p.product_name, p.model " +
+                            "ORDER BY claim_count DESC";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String productLabel = rs.getString("product_label");
+                long count = rs.getLong("claim_count");
+                productClaimCounts.put(productLabel, count);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Exception getting claims per product type " + e.getMessage());
+        } finally {
+            try {
+                closeConnection();
+            } catch (SQLException e) {
+                System.out.println("SQL Exception closing connection " + e.getMessage());
+            }
+        }
+        return productClaimCounts;
     }
 }

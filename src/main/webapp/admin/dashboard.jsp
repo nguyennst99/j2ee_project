@@ -12,12 +12,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin | ABC</title>
+    <title>Admin Dashboard - Claims Report</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+    <style>
+        .main-content-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-container-full {
+            flex-grow: 1;
+            position: relative;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: .375rem;
+            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+            margin-top: 1rem;
+        }
+
+        #productClaimsChart {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -39,60 +63,113 @@
     </div>
 </div>
 
-<%-- 3. Main Content Area --%>
+<%-- 3. Main Content Area (Now a flex container) --%>
 <main class="main-content-area">
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Admin Dashboard</h1>
+    <%-- Header Section (Doesn't grow) --%>
+    <div>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Claims Per Product Type</h1>
+        </div>
     </div>
-    <p>Welcome, Admin <c:out value="${sessionScope.username}"/>! Use the sidebar navigation to manage the
-        application.</p>
-    <hr>
 
-    <div class="row mt-4">
-        <div class="col-md-4 mb-3">
-            <div class="card text-center h-100">
-                <div class="card-body"><h5 class="card-title">Users</h5>
-                    <p class="card-text">View and manage user accounts.</p>
-                    <a href="/admin/users" class="btn btn-secondary">Go to Users</a>
+    <%-- Chart Container (Grows to fill space) --%>
+    <div class="chart-container-full">
+        <c:choose>
+            <c:when test="${not empty productClaimLabels and not empty productClaimCounts}">
+                <canvas id="productClaimsChart"></canvas>
+            </c:when>
+            <c:otherwise>
+                <div class="alert alert-info h-100 d-flex align-items-center justify-content-center" role="alert">
+                    No claim data available to generate the chart.
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card text-center h-100">
-                <div class="card-body"><h5 class="card-title">Products</h5>
-                    <p class="card-text">Manage the product catalog.</p>
-                    <a href="/admin/products" class="btn btn-secondary">Go to Products</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card text-center h-100">
-                <div class="card-body"><h5 class="card-title">Claims</h5>
-                    <p class="card-text">Review and update claim statuses.</p>
-                    <a href="/admin/claims" class="btn btn-secondary">Go to Claims</a></div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card text-center h-100">
-                <div class="card-body"><h5 class="card-title">Registrations</h5>
-                    <p class="card-text">View all registered products.</p>
-                    <a href="/admin/registeredProducts" class="btn btn-secondary">View Registrations</a></div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <div class="card text-center h-100">
-                <div class="card-body"><h5 class="card-title">User Report</h5>
-                    <p class="card-text">View comprehensive user report.</p>
-                    <a href="/admin/reports/all" class="btn btn-secondary">View Report</a></div>
-            </div>
-        </div>
+            </c:otherwise>
+        </c:choose>
     </div>
 
 </main>
 
 <%-- 4. Include Footer --%>
 <jsp:include page="/common/adminFooter.jsp"/>
+
+<%-- JavaScript for Chart Rendering (Place at the end) --%>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const productClaimsCtx = document.getElementById('productClaimsChart');
+
+        // Retrieve data passed from servlet
+        const productLabels = [<c:forEach var="label" items="${productClaimLabels}" varStatus="loop">'<c:out value="${label}"/>'<c:if test="${!loop.last}">, </c:if></c:forEach>];
+        const productData = [<c:forEach var="count" items="${productClaimCounts}" varStatus="loop"><c:out value="${count}"/><c:if test="${!loop.last}">, </c:if></c:forEach>];
+
+        // Check if the canvas element and data exist before creating chart
+        if (productClaimsCtx && productLabels.length > 0 && productData.length > 0) {
+            new Chart(productClaimsCtx, {
+                type: 'bar',
+                data: {
+                    labels: productLabels,
+                    datasets: [{
+                        label: 'Total Claims',
+                        data: productData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Total Claims Submitted by Product Type',
+                            padding: {
+                                top: 10,
+                                bottom: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Product Type'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Claims'
+                            },
+                            ticks: {
+                                precision: 0 
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            console.log("Canvas element or chart data not found/empty, chart not rendered.");
+        }
+    });
+</script>
 
 </body>
 </html>

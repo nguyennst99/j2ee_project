@@ -5,6 +5,7 @@ import humber.ca.project.model.ClaimStatus;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ClaimDAO {
@@ -58,4 +59,6 @@ public interface ClaimDAO {
      * For Admin view
      */
     List<Claim> findClaimByClaimStatus(ClaimStatus claimStatus);
+
+    Map<String, Long> getClaimCountsPerProductType();
 }
