@@ -4,6 +4,7 @@ import humber.ca.project.dao.UserDAO;
 import humber.ca.project.dao.UserDAOImpl;
 import humber.ca.project.model.Role;
 import humber.ca.project.model.User;
+import org.mindrot.jbcrypt.BCrypt;
 //import jakarta.servlet.RequestDispatcher;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.annotation.WebServlet;
@@ -49,32 +50,39 @@ public class LoginServlet extends HttpServlet {
             loginError = "Username and password are required";
         } else {
             // Find user by username
-            Optional<User> userOptional = userDAO.findUserByUsernameAndPassword(username, password);
+            Optional<User> userOptional = userDAO.findUserByUsername(username);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                // Login successfully
-                // Create session scope
-                HttpSession session = request.getSession(true);
+                String hashedPassword = user.getPassword();
+                // Verify password
+                if (BCrypt.checkpw(password, hashedPassword)) {
+                    // Login successfully
+                    // Create session scope
+                    HttpSession session = request.getSession(true);
 
-                // Store user info in session
-                session.setAttribute("userId", user.getId());
-                session.setAttribute("username", user.getUsername());
-                session.setAttribute("userRole", user.getRole());
+                    // Store user info in session
+                    session.setAttribute("userId", user.getId());
+                    session.setAttribute("username", user.getUsername());
+                    session.setAttribute("userRole", user.getRole());
 
-                // Redirect to the user or admin dashboard
-                if (user.getRole() == Role.admin) {
-                    response.sendRedirect("/admin/dashboard");
+                    // Redirect to the user or admin dashboard
+                    if (user.getRole() == Role.admin) {
+                        response.sendRedirect("/admin/dashboard");
+                    } else {
+                        response.sendRedirect("/dashboard");
+                    }
+                    return;
                 } else {
-                    response.sendRedirect("/dashboard");
+                    // User not found
+                    loginError = "Invalid username or password";
                 }
-                return;
             } else {
                 // User not found
                 loginError = "Invalid username or password";
             }
         }
 
-        // If login failed
+
         if (loginError != null) {
             request.setAttribute("loginError", loginError); // Set error message for JSP
             RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
