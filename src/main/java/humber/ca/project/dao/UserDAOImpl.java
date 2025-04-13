@@ -100,7 +100,7 @@ public class UserDAOImpl implements UserDAO {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                user = mapResultSetToUser(rs);
+                user = mapResultSetToUserGetAll(rs);
             }
         } catch (SQLException e) {
             System.out.println("SQL Exception finding user by email: " + e.getMessage());
@@ -130,7 +130,7 @@ public class UserDAOImpl implements UserDAO {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                user = mapResultSetToUser(rs);
+                user = mapResultSetToUserGetAll(rs);
             }
 
         } catch (SQLException e) {
@@ -158,7 +158,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
-                user = mapResultSetToUser(rs);
+                user = mapResultSetToUserGetAll(rs);
             }
         } catch (SQLException e) {
             System.out.println("SQL Exception finding user by id: " + e.getMessage());
@@ -210,7 +210,7 @@ public class UserDAOImpl implements UserDAO {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                users.add(mapResultSetToUser(rs));
+                users.add(mapResultSetToUserGetAll(rs));
             }
         } catch (SQLException e) {
             System.out.println("SQL Exception searching user: " + e.getMessage());
