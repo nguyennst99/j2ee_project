@@ -177,7 +177,7 @@ public class UserDAOImpl implements UserDAO {
             ps = con.prepareStatement(get_all_users_sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                users.add(mapResultSetToUser(rs));
+                users.add(mapResultSetToUserGetAll(rs));
             }
 
         } catch (SQLException e) {
@@ -267,6 +267,21 @@ public class UserDAOImpl implements UserDAO {
         user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));
         user.setPassword(rs.getString("password"));
+        user.setEmail(rs.getString("email"));
+        user.setCellphone(rs.getString("cellphone"));
+        user.setName(rs.getString("name"));
+        user.setAddress(rs.getString("address"));
+        user.setRoleFromString(rs.getString("role"));
+        return user;
+    }
+
+    /**
+     * Helper method to map ResultSet row to User object
+     */
+    private User mapResultSetToUserGetAll(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setUsername(rs.getString("username"));
         user.setEmail(rs.getString("email"));
         user.setCellphone(rs.getString("cellphone"));
         user.setName(rs.getString("name"));

@@ -68,7 +68,6 @@
                 <th>Cellphone</th>
                 <th>Address</th>
                 <th>Role</th>
-                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
