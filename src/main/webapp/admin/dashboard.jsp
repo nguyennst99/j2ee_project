@@ -159,7 +159,7 @@
                                 text: 'Number of Claims'
                             },
                             ticks: {
-                                precision: 0 
+                                precision: 0
                             }
                         }
                     }

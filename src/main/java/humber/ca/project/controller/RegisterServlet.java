@@ -5,6 +5,7 @@ import humber.ca.project.dao.UserDAO;
 import humber.ca.project.dao.UserDAOImpl;
 import humber.ca.project.model.Role;
 import humber.ca.project.model.User;
+import org.mindrot.jbcrypt.BCrypt;
 //import jakarta.servlet.RequestDispatcher;
 //import jakarta.servlet.ServletException;
 //import jakarta.servlet.annotation.WebServlet;
@@ -85,10 +86,12 @@ public class RegisterServlet extends HttpServlet {
                 return;
             }
 
+            String hashedPassword  = BCrypt.hashpw(password.trim(), BCrypt.gensalt());
+
             // Create User object
             User newUser = new User();
             newUser.setUsername(username.trim());
-            newUser.setPassword(password.trim());
+            newUser.setPassword(hashedPassword);
             newUser.setEmail(email.trim());
             newUser.setCellphone(cellphone.trim());
             newUser.setName(name.trim());
